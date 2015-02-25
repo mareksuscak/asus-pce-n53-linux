@@ -6,7 +6,7 @@
  * Taiwan, R.O.C.
  *
  * (c) Copyright 2002-2010, Ralink Technology, Inc.
- *
+ * Portions © 2013-2014, Jesse Crews <jcrews at gridlox dot net>
  * This program is free software; you can redistribute it and/or modify  *
  * it under the terms of the GNU General Public License as published by  *
  * the Free Software Foundation; either version 2 of the License, or     *
@@ -39,8 +39,14 @@
 /*extern int rt28xx_close(IN struct net_device *net_dev); */
 /*extern int rt28xx_open(struct net_device *net_dev); */
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)
+static VOID rt2860_remove_one(struct pci_dev *pci_dev);
+static INT rt2860_probe(struct pci_dev *pci_dev, const struct pci_device_id  *ent);
+#else
 static VOID __devexit rt2860_remove_one(struct pci_dev *pci_dev);
 static INT __devinit rt2860_probe(struct pci_dev *pci_dev, const struct pci_device_id  *ent);
+#endif
+
 static void __exit rt2860_cleanup_module(void);
 static int __init rt2860_init_module(void);
 
@@ -59,7 +65,11 @@ static int rt2860_resume(struct pci_dev *pci_dev);
 /* */
 /* Ralink PCI device table, include all supported chipsets */
 /* */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)
+static struct pci_device_id rt2860_pci_tbl[] =
+#else
 static struct pci_device_id rt2860_pci_tbl[] __devinitdata =
+#endif
 {
 #ifdef RT5592
 	{PCI_DEVICE(NIC_PCI_VENDOR_ID, NIC5592_PCIe_DEVICE_ID)},
@@ -86,11 +96,13 @@ static struct pci_driver rt2860_driver =
     name:       RTMP_DRV_NAME,
     id_table:   rt2860_pci_tbl,
     probe:      rt2860_probe,
-#if LINUX_VERSION_CODE >= 0x20412
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0) /* 3.8 check */
+#if LINUX_VERSION_CODE >= 0x20412 
     remove:     __devexit_p(rt2860_remove_one),
 #else
     remove:     __devexit(rt2860_remove_one),
 #endif
+#endif /* 3.8 check */
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
 #ifdef CONFIG_PM
@@ -291,7 +303,11 @@ module_exit(rt2860_cleanup_module);
 /* */
 /* PCI device probe & initialization function */
 /* */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)
+static INT  rt2860_probe(
+#else 
 static INT __devinit   rt2860_probe(
+#endif
     IN  struct pci_dev              *pci_dev, 
     IN  const struct pci_device_id  *pci_id)
 {
@@ -461,8 +477,11 @@ err_out:
 	return -ENODEV; /* probe fail */
 }
 
-
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)
+static VOID rt2860_remove_one(
+#else
 static VOID __devexit rt2860_remove_one(
+#endif
     IN  struct pci_dev  *pci_dev)
 {
 	PNET_DEV	net_dev = pci_get_drvdata(pci_dev);

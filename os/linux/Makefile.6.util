@@ -7,6 +7,9 @@ MOD_NAME = rtutil$(MODULE)sta
 endif
 #endif // CONFIG_STA_SUPPORT //
 
+ifndef KERN_VER
+KERN_VER = $(shell uname -r)
+endif
 
 obj-m := $(MOD_NAME).o
 
@@ -50,8 +53,8 @@ endif
 install:
 	install -d $(LINUX_SRC_MODULE)
 	install -m 644 -c $(addsuffix .ko,$(MOD_NAME)) $(LINUX_SRC_MODULE)
-	/sbin/depmod -a ${shell uname -r}
+	/sbin/depmod -a ${KERN_VER}
 
 uninstall:
 	rm -rf $(addprefix $(LINUX_SRC_MODULE),$(addsuffix .ko,$(MOD_NAME)))
-	/sbin/depmod -a ${shell uname -r}
+	/sbin/depmod -a ${KERN_VER}

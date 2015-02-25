@@ -6,6 +6,7 @@
  * Taiwan, R.O.C.
  *
  * (c) Copyright 2002-2010, Ralink Technology, Inc.
+ * Portions © 2013-2014 Jesse Crews <jcrews at gridlox dot net>
  *
  * This program is free software; you can redistribute it and/or modify  *
  * it under the terms of the GNU General Public License as published by  *
@@ -4893,7 +4894,7 @@ VOID RTMPIoctlShow(
             wrq->u.data.length = strlen(extra) + 1; /* 1: size of '\0' */
             break;
         case SHOW_DRVIER_VERION:
-            snprintf(extra, size, "Driver version-%s, %s %s\n", STA_DRIVER_VERSION, __DATE__, __TIME__ );
+            snprintf(extra, size, "Driver version-%s, \n", STA_DRIVER_VERSION);
             wrq->u.data.length = strlen(extra) + 1; /* 1: size of '\0' */
             break;
 #ifdef DOT11_N_SUPPORT

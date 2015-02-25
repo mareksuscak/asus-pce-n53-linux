@@ -6,7 +6,7 @@
  * Taiwan, R.O.C.
  *
  * (c) Copyright 2002-2010, Ralink Technology, Inc.
- *
+ * Portions © 2013-2014 Jesse Crews <jcrews at gridlox dot net>
  * This program is free software; you can redistribute it and/or modify  *
  * it under the terms of the GNU General Public License as published by  *
  * the Free Software Foundation; either version 2 of the License, or     *
@@ -278,8 +278,13 @@ typedef struct file* RTMP_OS_FD;
 
 typedef struct _OS_FS_INFO_
 {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,5,0)	
 	int				fsuid;
 	int				fsgid;
+#else   
+	kuid_t				fsuid;
+	kgid_t				fsgid;
+#endif
 	mm_segment_t	fs;
 } OS_FS_INFO;
 
@@ -996,15 +1001,15 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 		(RTPKT_TO_OSPKT(_pkt)->len) = (_len)
 		
 #define GET_OS_PKT_DATATAIL(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->tail)
+		((unsigned char*)skb_tail_pointer(RTPKT_TO_OSPKT(_pkt)))
 #define SET_OS_PKT_DATATAIL(_pkt, _start, _len)	\
-		((RTPKT_TO_OSPKT(_pkt))->tail) = (PUCHAR)((_start) + (_len))
+		(skb_set_tail_pointer((RTPKT_TO_OSPKT(_pkt)), (_len)))
 		
 #define GET_OS_PKT_HEAD(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->head)
 
 #define GET_OS_PKT_END(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->end)
+		((unsigned char*)skb_end_pointer(RTPKT_TO_OSPKT(_pkt)))
 
 #define GET_OS_PKT_NETDEV(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->dev)

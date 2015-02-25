@@ -9,6 +9,9 @@ DAT_FILE_NAME = RT$(CHIPSET_DAT)STA.dat
 endif
 #endif // CONFIG_STA_SUPPORT //
 
+ifndef KERN_VER
+KERN_VER = $(shell uname -r)
+endif
 
 obj-m := $(MOD_NAME).o
 
@@ -297,12 +300,12 @@ install:
 	cp $(RT28xx_DIR)/$(DAT_FILE_NAME) $(DAT_PATH)/.
 	install -d $(LINUX_SRC_MODULE)
 	install -m 644 -c $(addsuffix .ko,$(MOD_NAME)) $(LINUX_SRC_MODULE)
-	/sbin/depmod -a ${shell uname -r}
+	/sbin/depmod -a ${KERN_VER}
 
 uninstall:
 #	rm -rf $(DAT_PATH)
 	rm -rf $(addprefix $(LINUX_SRC_MODULE),$(addsuffix .ko,$(MOD_NAME)))
-	/sbin/depmod -a ${shell uname -r}
+	/sbin/depmod -a ${KERN_VER}
 
 # Declare the contents of the .PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
