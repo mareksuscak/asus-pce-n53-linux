@@ -4,8 +4,7 @@ When I bought this Wireless network card it wasn't working in Ubuntu 14.10 with 
 
 ## Important Note
 
-Reportedly 5 GHz is not working anymore with this patched driver as of 4.2.0-17-generic kernel. If you happen to know what's wrong or where I can find a patch for that, let me know and I'll gladly update the repo providing all the instructions so that all of us can get it to work.
-
+Reportedly [5 GHz is not working anymore](https://github.com/mareksuscak/asus-pce-n53-linux/issues/2) with this patched driver as of 4.2.0-17-generic kernel. If you happen to know what's wrong or where I can find a patch for that, let me know and I'll gladly update the repo providing all the instructions so that all of us can get it to work.
 
 ## How to Install
 
@@ -24,3 +23,7 @@ $ sudo modprobe rt5592sta
 ```
 
 If everything worked well you should be able to connect to the Wireless network now.
+
+## Seeing Compile Errors?
+
+Some users have had success compiling this driver after [making minor changes](https://github.com/mareksuscak/asus-pce-n53-linux/issues/4#issue-215234424) to the source code which normally result in a compile error.
