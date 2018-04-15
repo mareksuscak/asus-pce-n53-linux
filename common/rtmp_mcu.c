@@ -555,7 +555,7 @@ INT RtmpAsicSendCommandToMcu(
 			&& (pAd->HostVendor != PCIBUS_INTEL_VENDOR)))
 		{
 			offset = 0x70F;
-			pci_read_config_word(((POS_COOKIE)pAd->OS_Cookie)->pci_dev, offset, &Configuration); 
+			pci_read_config_word(((POS_COOKIE)pAd->OS_Cookie)->pci_dev, offset, (u16*)&Configuration);
 			Configuration=le2cpu16(Configuration);
 			Configuration &= 0xffffff00;
 			Configuration |= (0x13);	/* set Latency to default */
@@ -575,7 +575,7 @@ INT RtmpAsicSendCommandToMcu(
 		{
 			offset = 0x70F;
 			/* Configuration = RTMPReadCBConfigXP(pAd, offset); */
-			pci_read_config_word(((POS_COOKIE)pAd->OS_Cookie)->pci_dev, offset, &Configuration);
+			pci_read_config_word(((POS_COOKIE)pAd->OS_Cookie)->pci_dev, offset, (u16*)&Configuration);
 			Configuration=le2cpu16(Configuration);
 
 			Configuration &= 0xffffff00;
