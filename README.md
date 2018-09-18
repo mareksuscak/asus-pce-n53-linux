@@ -32,4 +32,4 @@ Some users have had success compiling this driver after [making minor changes](h
 
 These are people who contributed to this project free of charge. I'm thankful and grateful for your generosity guys.
 
-@jsuann
+[@jsuann](https://github.com/jsuann) - contributed [fixes for kernel 4.15+](https://github.com/mareksuscak/asus-pce-n53-linux/pull/6)
