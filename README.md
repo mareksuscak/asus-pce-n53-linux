@@ -27,3 +27,9 @@ If everything worked well you should be able to connect to the Wireless network 
 ## Seeing Compile Errors?
 
 Some users have had success compiling this driver after [making minor changes](https://github.com/mareksuscak/asus-pce-n53-linux/issues/4#issue-215234424) to the source code which normally result in a compile error.
+
+## Contributors
+
+These are people who contributed to this project free of charge. I'm thankful and grateful for your generosity guys.
+
+@jsuann
