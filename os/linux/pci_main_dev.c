@@ -528,4 +528,4 @@ static VOID __devexit rt2860_remove_one(
  
 
 
-
+MODULE_LICENSE("GPL");
