@@ -1,10 +1,10 @@
-# Asus PCE-N53 linux driver for kernel 3.x
+# Asus PCE-N53 linux driver for kernel 3.x, 4.x and 5.x
 
 When I bought this Wireless network card it wasn't working in Ubuntu 14.10 with kernel 3.16. Then I have found [patched driver](https://github.com/unused/patched-Asus-PCE-N53-linux-driver) here on GitHub that was tested with Fedora but I wasn't able to compile it on Ubuntu so I've decided to create this repository and provide working sources for Ubuntu users. The instructions were taken from [this superuser thread](http://superuser.com/questions/663190/asus-pce-n53-11n-n600-pci-e-adapter-on-3-x-kernel). There's nothing more except for the need of having ethernet connection to install build dependencies.
 
-## Important Note
+## If 5 GHz is not working for you
 
-Reportedly [5 GHz is not working anymore](https://github.com/mareksuscak/asus-pce-n53-linux/issues/2) with this patched driver as of 4.2.0-17-generic kernel. If you happen to know what's wrong or where I can find a patch for that, let me know and I'll gladly update the repo providing all the instructions so that all of us can get it to work.
+Go and [read this thread](https://github.com/mareksuscak/asus-pce-n53-linux/issues/2#issuecomment-371232918).
 
 ## How to Install
 
