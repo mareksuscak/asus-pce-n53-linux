@@ -1,0 +1,6 @@
+/.*.ko.cmd
+/.tmp_versions
+/Makefile
+/Module.symvers
+/modules.order
+/rt5592sta.mod.c

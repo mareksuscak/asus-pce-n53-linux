@@ -17,7 +17,7 @@ $ sudo apt-get install build-essential linux-headers-generic linux-headers-$(una
 $ cd ~
 $ git clone https://github.com/mareksuscak/asus-pce-n53-linux.git
 $ cd asus-pce-n53-linux
-$ sudo make
+$ make
 $ sudo make install
 $ sudo modprobe rt5592sta
 ```
