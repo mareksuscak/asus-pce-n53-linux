@@ -1,14 +1,12 @@
 # Asus PCE-N53 linux driver for kernel 3.x, 4.x and 5.x
 
-When I bought this Wireless network card it wasn't working in Ubuntu 14.10 with kernel 3.16. Then I have found [patched driver](https://github.com/unused/patched-Asus-PCE-N53-linux-driver) here on GitHub that was tested with Fedora but I wasn't able to compile it on Ubuntu so I've decided to create this repository and provide working sources for Ubuntu users. The instructions were taken from [this superuser thread](http://superuser.com/questions/663190/asus-pce-n53-11n-n600-pci-e-adapter-on-3-x-kernel). There's nothing more except for the need of having ethernet connection to install build dependencies.
+## First a little bit of a story...
 
-## If 5 GHz is not working for you
-
-Go and [read this thread](https://github.com/mareksuscak/asus-pce-n53-linux/issues/2#issuecomment-371232918).
+When I bought Asus PCE N53 Wi-Fi network card it wasn't working in Ubuntu 14.10 with kernel 3.16. Then I found a [patched driver](https://github.com/unused/patched-Asus-PCE-N53-linux-driver) here on GitHub that had been tested with Fedora but I wasn't able to compile it on Ubuntu so I decided to create this repository and provide working sources and instructions for Ubuntu users. The instructions were compiled from [this superuser thread](http://superuser.com/questions/663190/asus-pce-n53-11n-n600-pci-e-adapter-on-3-x-kernel). You'll need a working ethernet connection to install the build dependencies.
 
 ## How to Install
 
-Simply clone the repository, install build dependencies, compile sources, install compiled module and use modprobe to activate it.
+Simply clone this repository, install build dependencies, compile sources, install compiled module and use modprobe to activate it.
 
 ```
 $ sudo apt-get update
@@ -24,12 +22,22 @@ $ sudo modprobe rt5592sta
 
 If everything worked well you should be able to connect to the Wireless network now.
 
-## Seeing Compile Errors?
+## Troubleshooting
+
+### Seeing Compile Errors?
 
 Some users have had success compiling this driver after [making minor changes](https://github.com/mareksuscak/asus-pce-n53-linux/issues/4#issue-215234424) to the source code which normally result in a compile error.
 
+### If 5 GHz is not working for you
+
+Go and [read this thread](https://github.com/mareksuscak/asus-pce-n53-linux/issues/2#issuecomment-371232918).
+
 ## Contributors
 
-These are people who contributed to this project free of charge. I'm thankful and grateful for your generosity guys.
+These are the wonderful people who contributed to this project, free of charge.
 
 [@jsuann](https://github.com/jsuann) - contributed [fixes for kernel 4.15+](https://github.com/mareksuscak/asus-pce-n53-linux/pull/6)
+[@awonnacott](https://github.com/awonnacott) - contributed [fixes for kernel 5.x](https://github.com/mareksuscak/asus-pce-n53-linux/pull/7)
+[@Guite](https://github.com/Guite) and [@SydCLu](https://github.com/SydCLu) - contributed an important guide to get 5 GHz to work properly
+
+Thank you so much y'all! We're all eternally thankful and grateful for your generosity. 
