@@ -36,8 +36,8 @@ Go and [read this thread](https://github.com/mareksuscak/asus-pce-n53-linux/issu
 
 These are the wonderful people who contributed to this project, free of charge.
 
-[@jsuann](https://github.com/jsuann) - contributed [fixes for kernel 4.15+](https://github.com/mareksuscak/asus-pce-n53-linux/pull/6)
-[@awonnacott](https://github.com/awonnacott) - contributed [fixes for kernel 5.x](https://github.com/mareksuscak/asus-pce-n53-linux/pull/7)
-[@Guite](https://github.com/Guite) and [@SydCLu](https://github.com/SydCLu) - contributed an important guide to get 5 GHz to work properly
+- [@jsuann](https://github.com/jsuann) - contributed [fixes for kernel 4.15+](https://github.com/mareksuscak/asus-pce-n53-linux/pull/6)
+- [@awonnacott](https://github.com/awonnacott) - contributed [fixes for kernel 5.x](https://github.com/mareksuscak/asus-pce-n53-linux/pull/7)
+- [@Guite](https://github.com/Guite) and [@SydCLu](https://github.com/SydCLu) - contributed an important guide to get 5 GHz to work properly
 
 Thank you so much y'all! We're all eternally thankful and grateful for your generosity. 
