@@ -561,7 +561,7 @@ INT RtmpAsicSendCommandToMcu(
 			Configuration |= (0x13);	/* set Latency to default */
 			Configuration=le2cpu16(Configuration);
 			pci_write_config_word(((POS_COOKIE)pAd->OS_Cookie)->pci_dev, offset, Configuration);
-			DBGPRINT(RT_DEBUG_TRACE, ("Write 70f; offset = %x, Configuration = %x. \n", offset, Configuration));
+			DBGPRINT(RT_DEBUG_TRACE, ("Write 70f; offset = %x, Configuration = %x. \n", *(u16*)&offset, *(u16*)&Configuration));
 		}
 		pAd->LastMCUCmd = Command;
         }
@@ -584,7 +584,7 @@ INT RtmpAsicSendCommandToMcu(
 
 			pci_write_config_word(((POS_COOKIE)pAd->OS_Cookie)->pci_dev, offset, Configuration);
 
-			DBGPRINT(RT_DEBUG_TRACE, ("RadioOnExec restore 70f; offset = %x, Configuration = %x. \n", offset, Configuration));
+			DBGPRINT(RT_DEBUG_TRACE, ("RadioOnExec restore 70f; offset = %x, Configuration = %x. \n", *(u16*)&offset, *(u16*)&Configuration));
 		}
 	}
 
