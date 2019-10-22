@@ -1,6 +1,6 @@
 # Asus PCE-N53 linux driver for kernel 3.x, 4.x and 5.x
 
-## First a little bit of a story...
+## First a little bit of a story on Asus PCE N53 Wi-Fi network card...
 
 When I bought Asus PCE N53 Wi-Fi network card it wasn't working in Ubuntu 14.10 with kernel 3.16. Then I found a [patched driver](https://github.com/unused/patched-Asus-PCE-N53-linux-driver) here on GitHub that had been tested with Fedora but I wasn't able to compile it on Ubuntu so I decided to create this repository and provide working sources and instructions for Ubuntu users. The instructions were compiled from [this superuser thread](http://superuser.com/questions/663190/asus-pce-n53-11n-n600-pci-e-adapter-on-3-x-kernel). You'll need a working ethernet connection to install the build dependencies.
 
