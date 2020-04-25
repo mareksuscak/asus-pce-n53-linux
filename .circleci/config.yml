@@ -21,7 +21,7 @@ jobs:
           command: apt upgrade -y
       - run:
           name: Install Build Tools
-          command: apt install build-essential linux-headers-generic linux-headers-generic -y
+          command: apt install build-essential linux-headers-generic linux-headers-$(uname -r) -y
       - run:
           name: Build
           command: make
