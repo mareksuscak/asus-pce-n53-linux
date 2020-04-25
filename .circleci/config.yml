@@ -30,11 +30,5 @@ workflows:
   main:
     jobs:
       - build:
-          name: "Ubuntu 20.04"
-          image: "ubuntu:20.04"
-      - build:
-          name: "Ubuntu 19.10"
-          image: "ubuntu:19.10"
-      - build:
           name: "Ubuntu 18.04"
           image: "ubuntu:18.04"
