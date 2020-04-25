@@ -1,0 +1,45 @@
+# Reference
+# https://circleci.com/docs/2.0/configuration-reference
+
+version: 2.1
+
+jobs:
+  "Ubuntu 20.04":
+    docker:
+      - image: ubuntu:20.04
+    steps:
+      - checkout
+      - run: |
+        apt update
+        apt upgrade -y
+        apt install build-essential linux-headers-generic linux-headers-generic -y
+        make
+
+  "Ubuntu 19.10":
+    docker:
+      - image: ubuntu:19.10
+    steps:
+      - checkout
+      - run: |
+        apt update
+        apt upgrade -y
+        apt install build-essential linux-headers-generic linux-headers-generic -y
+        make
+
+  "Ubuntu 18.04":
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - checkout
+      - run: |
+        apt update
+        apt upgrade -y
+        apt install build-essential linux-headers-generic linux-headers-generic -y
+        make
+
+workflows:
+  "Build on Ubuntu":
+    jobs:
+      - "Ubuntu 20.04"
+      - "Ubuntu 19.10"
+      - "Ubuntu 18.04"
