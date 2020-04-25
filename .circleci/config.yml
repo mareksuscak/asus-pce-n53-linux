@@ -4,42 +4,37 @@
 version: 2.1
 
 jobs:
-  "Ubuntu 20.04":
+  build:
+    parameters:
+      image:
+        type: string
+        default: "ubuntu:latest"
     docker:
-      - image: ubuntu:20.04
+      - image: << parameters.image >>
     steps:
       - checkout
-      - run: |
-        apt update
-        apt upgrade -y
-        apt install build-essential linux-headers-generic linux-headers-generic -y
-        make
-
-  "Ubuntu 19.10":
-    docker:
-      - image: ubuntu:19.10
-    steps:
-      - checkout
-      - run: |
-        apt update
-        apt upgrade -y
-        apt install build-essential linux-headers-generic linux-headers-generic -y
-        make
-
-  "Ubuntu 18.04":
-    docker:
-      - image: ubuntu:18.04
-    steps:
-      - checkout
-      - run: |
-        apt update
-        apt upgrade -y
-        apt install build-essential linux-headers-generic linux-headers-generic -y
-        make
+      - run:
+          name: Update Aptitude Package Repositories
+          command: apt update
+      - run:
+          name: Upgrade Packages
+          command: apt upgrade -y
+      - run:
+          name: Install Build Tools
+          command: apt install build-essential linux-headers-generic linux-headers-generic -y
+      - run:
+          name: Build
+          command: make
 
 workflows:
-  "Build on Ubuntu":
+  main:
     jobs:
-      - "Ubuntu 20.04"
-      - "Ubuntu 19.10"
-      - "Ubuntu 18.04"
+      - build:
+          name: "Ubuntu 20.04"
+          image: "ubuntu:20.04"
+      - build:
+          name: "Ubuntu 19.10"
+          image: "ubuntu:19.10"
+      - build:
+          name: "Ubuntu 18.04"
+          image: "ubuntu:18.04"
