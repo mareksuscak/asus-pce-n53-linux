@@ -3075,7 +3075,7 @@ VOID	UserCfgInit(
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_INFRA_ON);
 
 	/* PHY specification*/
-	pAd->CommonCfg.PhyMode = PHY_11BG_MIXED;		/* default PHY mode*/
+	pAd->CommonCfg.PhyMode = PHY_11ABGN_MIXED;		/* default PHY mode*/
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_SHORT_PREAMBLE_INUSED);  /* CCK use LONG preamble*/
 
 #ifdef CONFIG_STA_SUPPORT
