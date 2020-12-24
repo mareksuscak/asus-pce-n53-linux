@@ -30,7 +30,7 @@
 
 #include "rtmp.h"
 
-#define ADDBGPRINT(format,args...)	do{if(atomic_read(&DEBUG_VERBOSE_MODE))	printk( format, ##args);}while(0)
+#define ADDBGPRINT(format,args...)	do{if(atomic_read(&DEBUG_VERBOSE_MODE))	printk(KERN_WARNING  format, ##args);}while(0)
 #define PROC_DIR	"AntDiv"
 
 /*
@@ -68,7 +68,7 @@
 				if (BbpCsr.field.Busy == IDLE)          \
 					break;                          \
 				else					\
-					printk("MCU busy\n");		\
+					printk(KERN_WARNING "MCU busy\n");		\
 			}                                               \
 			if ((BbpCsr.field.Busy == IDLE) &&              \
 				(BbpCsr.field.RegNum == _I))            \

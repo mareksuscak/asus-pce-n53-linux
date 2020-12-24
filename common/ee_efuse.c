@@ -889,7 +889,7 @@ INT set_eFuseGetFreeBlockCount_Proc(
 	if (pAd->bUseEfuse == FALSE && pAd->bFroceEEPROMBuffer == FALSE)
 		return FALSE;
 	eFuseGetFreeBlockCount(pAd,&efusefreenum);
-	printk("efuseFreeNumber is %d\n",efusefreenum);
+	printk(KERN_WARNING "efuseFreeNumber is %d\n",efusefreenum);
 	return TRUE;
 }
 
@@ -912,8 +912,8 @@ INT set_eFusedump_Proc(
 		
 		eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);
 		if(i%4==0)
-		printk("\nBlock %x:",i/8);
-		printk("%04x ",InBuf[2]);
+		printk(KERN_WARNING "\nBlock %x:",i/8);
+		printk(KERN_WARNING "%04x ",InBuf[2]);
 	}
 	return TRUE;
 }
@@ -1006,8 +1006,8 @@ INT	set_eFuseLoadFromBin_Proc(
 				}
 				/*
 				for(l=0;l<8;l++)
-					printk("%04x ",PDATA[l]);
-				printk("\n");
+					printk(KERN_WARNING "%04x ",PDATA[l]);
+				printk(KERN_WARNING "\n");
 				*/
 				NdisZeroMemory(PDATA,16);
 			}
@@ -1225,7 +1225,7 @@ static NTSTATUS eFuseWriteRegistersFromBin(
 		}
 		if(!bNotWrite)
 		{
-		printk("The data is not the same\n");
+		printk(KERN_WARNING "The data is not the same\n");
 		
 			for(i =0; i<8; i++)
 			{

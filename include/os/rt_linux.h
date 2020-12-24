@@ -678,7 +678,7 @@ do{                                   \
 
 #define DBGPRINT_ERR(Fmt)           \
 {                                   \
-    printk("ERROR!!! ");          \
+    printk(KERN_WARNING "ERROR!!! ");          \
     printk Fmt;                  \
 }
 
@@ -699,7 +699,7 @@ do{                                   \
 {                                                                               \
     if (!(x))                                                                   \
     {                                                                           \
-        printk(KERN_WARNING __FILE__ ":%d assert " #x "failed\n", __LINE__);    \
+        printk(KERN_WARNING KERN_WARNING __FILE__ ":%d assert " #x "failed\n", __LINE__);    \
     }                                                                           \
 }
 #else

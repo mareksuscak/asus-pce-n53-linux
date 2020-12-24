@@ -395,7 +395,7 @@ NDIS_STATUS RTMPAllocateNdisPacket(
 	if (pPacket == NULL) {
 		*ppPacket = NULL;
 #ifdef DEBUG
-		printk(KERN_ERR "RTMPAllocateNdisPacket Fail\n\n");
+		printk(KERN_WARNING KERN_ERR "RTMPAllocateNdisPacket Fail\n\n");
 #endif
 		return NDIS_STATUS_FAILURE;
 	}
@@ -412,7 +412,7 @@ NDIS_STATUS RTMPAllocateNdisPacket(
 	skb_put(GET_OS_PKT_TYPE(pPacket), HeaderLen + DataLen);
 
 	RTMP_SET_PACKET_SOURCE(pPacket, PKTSRC_NDIS);
-/*	printk(KERN_ERR "%s : pPacket = %p, len = %d\n", __FUNCTION__,
+/*	printk(KERN_WARNING KERN_ERR "%s : pPacket = %p, len = %d\n", __FUNCTION__,
 	pPacket, GET_OS_PKT_LEN(pPacket));*/
 	*ppPacket = pPacket;
 	return NDIS_STATUS_SUCCESS;
@@ -739,15 +739,15 @@ void hex_dump(
 		return;
 
 	pt = pSrcBufVA;
-	printk("%s: %p, len = %d\n", str, pSrcBufVA, SrcBufLen);
+	printk(KERN_WARNING "%s: %p, len = %d\n", str, pSrcBufVA, SrcBufLen);
 	for (x = 0; x < SrcBufLen; x++) {
 		if (x % 16 == 0)
-			printk("0x%04x : ", x);
-		printk("%02x ", ((unsigned char)pt[x]));
+			printk(KERN_WARNING "0x%04x : ", x);
+		printk(KERN_WARNING "%02x ", ((unsigned char)pt[x]));
 		if (x % 16 == 15)
-			printk("\n");
+			printk(KERN_WARNING "\n");
 	}
-	printk("\n");
+	printk(KERN_WARNING "\n");
 #endif /* DBG */
 }
 
@@ -1174,7 +1174,7 @@ static inline NDIS_STATUS __RtmpOSTaskKill(IN OS_TASK *pTask) {
 		mb();
 		ret = KILL_THREAD_PID(pTask->taskPID, SIGTERM, 1);
 		if (ret) {
-			printk(KERN_WARNING
+			printk(KERN_WARNING KERN_WARNING
 			       "kill task(%s) with pid(%d) failed(retVal=%d)!\n",
 			       pTask->taskName, GET_PID_NUMBER(pTask->taskPID),
 			       ret);
@@ -1383,7 +1383,7 @@ static UINT32 RtmpOSWirelessEventTranslate(IN UINT32 eventType) {
 		break;
 
 	default:
-		printk("Unknown event: 0x%x\n", eventType);
+		printk(KERN_WARNING "Unknown event: 0x%x\n", eventType);
 		break;
 	}
 
@@ -1556,11 +1556,11 @@ void RtmpOSNetDevFree(PNET_DEV pNetDev)
 #endif
 
 #ifdef VENDOR_FEATURE4_SUPPORT
-	printk("OS_NumOfMemAlloc = %ld, OS_NumOfMemFree = %ld\n",
+	printk(KERN_WARNING "OS_NumOfMemAlloc = %ld, OS_NumOfMemFree = %ld\n",
 			OS_NumOfMemAlloc, OS_NumOfMemFree);
 #endif /* VENDOR_FEATURE4_SUPPORT */
 #ifdef VENDOR_FEATURE2_SUPPORT
-	printk("OS_NumOfPktAlloc = %ld, OS_NumOfPktFree = %ld\n",
+	printk(KERN_WARNING "OS_NumOfPktAlloc = %ld, OS_NumOfPktFree = %ld\n",
 			OS_NumOfPktAlloc, OS_NumOfPktFree);
 #endif /* VENDOR_FEATURE2_SUPPORT */
 }
@@ -1647,7 +1647,7 @@ INT RtmpOSNetDevDestory(IN VOID *pReserved,
 {
 
 	/* TODO: Need to fix this */
-	printk("WARNING: This function(%s) not implement yet!!!\n",
+	printk(KERN_WARNING "WARNING: This function(%s) not implement yet!!!\n",
 	       __FUNCTION__);
 	return 0;
 }
@@ -1943,7 +1943,7 @@ VOID RtmpDrvAllMacPrint(IN VOID *pReserved,
 					file_w->f_op->write(file_w, msg, strlen(msg),
 							    &file_w->f_pos);
 
-					printk("%s", msg);
+					printk(KERN_WARNING "%s", msg);
 					macAddr += AddrStep;
 				}
 				sprintf(msg, "\nDump all MAC values to %s\n", fileName);
@@ -1995,7 +1995,7 @@ VOID RtmpDrvAllE2PPrint(IN VOID *pReserved,
 					file_w->f_op->write(file_w, msg, strlen(msg),
 							    &file_w->f_pos);
 
-					printk("%s", msg);
+					printk(KERN_WARNING "%s", msg);
 					eepAddr += AddrStep;
 					pMacContent += (AddrStep >> 1);
 				}
@@ -4139,7 +4139,7 @@ VOID RtmpOsSpinLockBh(IN NDIS_SPIN_LOCK *pLockOrg) {
 	if (pLock != NULL) {
 		OS_SEM_LOCK(pLock);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4163,7 +4163,7 @@ VOID RtmpOsSpinUnLockBh(IN NDIS_SPIN_LOCK *pLockOrg) {
 	if (pLock != NULL) {
 		OS_SEM_UNLOCK(pLock);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4189,7 +4189,7 @@ VOID RtmpOsIntLock(IN NDIS_SPIN_LOCK *pLockOrg,
 	if (pLock != NULL) {
 		OS_INT_LOCK(pLock, *pIrqFlags);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4215,7 +4215,7 @@ VOID RtmpOsIntUnLock(IN NDIS_SPIN_LOCK *pLockOrg,
 	if (pLock != NULL) {
 		OS_INT_UNLOCK(pLock, IrqFlags);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4729,7 +4729,7 @@ BOOLEAN RtmpOsSemaDestory(IN RTMP_OS_SEM *pSemOrg) {
 		os_free_mem(NULL, pSem);
 		pSemOrg->pContent = NULL;
 	} else
-		printk("sem> warning! double-free sem!\n");
+		printk(KERN_WARNING "sem> warning! double-free sem!\n");
 	return TRUE;
 }
 

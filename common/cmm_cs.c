@@ -68,7 +68,7 @@ VOID CarrierDetectionPeriodicStateCtrl(
 	{
 		CARRIER_DETECT_DEBUG CarrDetectDebug;
 		RTUSBMultiRead(pAd, 0x4CB0, (PUCHAR) &CarrDetectDebug, sizeof(CarrDetectDebug));		
-		printk("delta_div = 0x%02X, rRadarToneCount = %u, Recheck = %u, Criteria = %u, Threshold = 0x%08X, VGA_Mask = 0x%04X\n",
+		printk(KERN_WARNING "delta_div = 0x%02X, rRadarToneCount = %u, Recheck = %u, Criteria = %u, Threshold = 0x%08X, VGA_Mask = 0x%04X\n",
 				CarrDetectDebug.delta_div,
 				CarrDetectDebug.RadarToneCount,
 				CarrDetectDebug.ReCheck,
@@ -92,7 +92,7 @@ VOID CarrierDetectionPeriodicStateCtrl(
 					AsicDisableSync(pAd);
 				}
 				else
-				printk("Carrier Detected\n");
+				printk(KERN_WARNING "Carrier Detected\n");
 			}
 			break;
 			
@@ -165,7 +165,7 @@ VOID RTMPHandleRadarInterrupt(PRTMP_ADAPTER  pAd)
 			pCarrierDetect->Debug = 0;
 			for (i = 0; i < 20; i++)
 			{
-				printk("%3d %4ld %ld %ld\n", i, time[i], idle[i], busy[i]);
+				printk(KERN_WARNING "%3d %4ld %ld %ld\n", i, time[i], idle[i], busy[i]);
 			}
 			cd_idx = 0;
 			
@@ -193,7 +193,7 @@ VOID RTMPHandleRadarInterrupt(PRTMP_ADAPTER  pAd)
 			}
 			else
 			{
-				printk("Carrier Detected\n");
+				printk(KERN_WARNING "Carrier Detected\n");
 			}
 		}
 	}
@@ -348,7 +348,7 @@ INT	Set_CarrierDebug_Proc(
 	IN	PSTRING			arg)
 {
 	pAd->CommonCfg.CarrierDetect.Debug = simple_strtol(arg, 0, 10);
-	printk("pAd->CommonCfg.CarrierDetect.Debug = %ld\n", pAd->CommonCfg.CarrierDetect.Debug);
+	printk(KERN_WARNING "pAd->CommonCfg.CarrierDetect.Debug = %ld\n", pAd->CommonCfg.CarrierDetect.Debug);
 	return TRUE;
 }
 
@@ -373,7 +373,7 @@ INT	Set_CarrierDelta_Proc(
 	IN	PSTRING			arg)
 {
 	pAd->CommonCfg.CarrierDetect.delta = simple_strtol(arg, 0, 10);
-	printk("Delta = %d\n", pAd->CommonCfg.CarrierDetect.delta);
+	printk(KERN_WARNING "Delta = %d\n", pAd->CommonCfg.CarrierDetect.delta);
 	CarrierDetectionStart(pAd);
 
 	return TRUE;
@@ -399,7 +399,7 @@ INT	Set_CarrierDivFlag_Proc(
 	IN	PSTRING			arg)
 {
 	pAd->CommonCfg.CarrierDetect.div_flag = simple_strtol(arg, 0, 10);
-	printk("DivFlag = %d\n", pAd->CommonCfg.CarrierDetect.div_flag);
+	printk(KERN_WARNING "DivFlag = %d\n", pAd->CommonCfg.CarrierDetect.div_flag);
 	CarrierDetectionStart(pAd);
 
 	return TRUE;
@@ -426,7 +426,7 @@ INT	Set_CarrierThrd_Proc(
 	IN	PSTRING			arg)
 {
 	pAd->CommonCfg.CarrierDetect.threshold = simple_strtol(arg, 0, 10);
-	printk("CarrThrd = %d(0x%x)\n", pAd->CommonCfg.CarrierDetect.threshold, pAd->CommonCfg.CarrierDetect.threshold);
+	printk(KERN_WARNING "CarrThrd = %d(0x%x)\n", pAd->CommonCfg.CarrierDetect.threshold, pAd->CommonCfg.CarrierDetect.threshold);
 	CarrierDetectionStart(pAd);
 
 	return TRUE;
@@ -453,7 +453,7 @@ INT	Set_CarrierSymRund_Proc(
 	IN	PSTRING			arg)
 {
 	pAd->CommonCfg.CarrierDetect.SymRund= simple_strtol(arg, 0, 10);
-	printk("SymRund = %d\n", pAd->CommonCfg.CarrierDetect.SymRund);
+	printk(KERN_WARNING "SymRund = %d\n", pAd->CommonCfg.CarrierDetect.SymRund);
 	CarrierDetectionStart(pAd);
 
 	return TRUE;
@@ -482,7 +482,7 @@ INT Set_CarrierMask_Proc(
 	pAd->CommonCfg.CarrierDetect.VGA_Mask = simple_strtol(arg, 0, 10);
 	pAd->CommonCfg.CarrierDetect.Packet_End_Mask = simple_strtol(arg, 0, 10);
 	pAd->CommonCfg.CarrierDetect.Rx_PE_Mask = simple_strtol(arg, 0, 10);
-	printk("CarrMask = %u(%x)\n", pAd->CommonCfg.CarrierDetect.VGA_Mask, pAd->CommonCfg.CarrierDetect.VGA_Mask);
+	printk(KERN_WARNING "CarrMask = %u(%x)\n", pAd->CommonCfg.CarrierDetect.VGA_Mask, pAd->CommonCfg.CarrierDetect.VGA_Mask);
 	CarrierDetectionStart(pAd);
 
 	return TRUE;

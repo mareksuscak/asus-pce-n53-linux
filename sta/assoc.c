@@ -813,7 +813,7 @@ VOID MlmeReassocReqAction(
 								extInfoLen,			&extCapInfo,
 								END_OF_ARGS);
 			FrameLen += TmpLen;
-			/*printk("iverson test extCapInfo.BssTransitionManmt %x \n",extCapInfo.BssTransitionManmt); */
+			/*printk(KERN_WARNING "iverson test extCapInfo.BssTransitionManmt %x \n",extCapInfo.BssTransitionManmt); */
 		}
 
 		/* add Ralink proprietary IE to inform AP this STA is going to use AGGREGATION or PIGGY-BACK+AGGREGATION */

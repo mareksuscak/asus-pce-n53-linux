@@ -1821,7 +1821,7 @@ INT RTMPSetInformation(
 	    				NdisMoveMemory(pAd->StaCfg.WpaPassPhrase, &ppassphrase->KeyMaterial, ppassphrase->KeyLength);
 	   					pAd->StaCfg.WpaPassPhraseLen = ppassphrase->KeyLength;
 						hex_dump("pAd->StaCfg.WpaPassPhrase", pAd->StaCfg.WpaPassPhrase, 64);
-						printk("WpaPassPhrase=%s\n",pAd->StaCfg.WpaPassPhrase);
+						printk(KERN_WARNING "WpaPassPhrase=%s\n",pAd->StaCfg.WpaPassPhrase);
 					}
                 }
             }
@@ -2124,7 +2124,7 @@ INT RTMPSetInformation(
                 if (RtsThresh > MAX_RTS_THRESHOLD)
 				{
                     Status = -EINVAL;
-					RtsThresh = 0; /* avoid compile warning in printk() */
+					RtsThresh = 0; /* avoid compile warning in printk(KERN_WARNING ) */
                 }
 				else
                     pAd->CommonCfg.RtsThreshold = (USHORT)RtsThresh;
@@ -2135,7 +2135,7 @@ INT RTMPSetInformation(
             if (wrq->u.data.length != sizeof(NDIS_802_11_FRAGMENTATION_THRESHOLD))
 			{
                 Status  = -EINVAL;
-				FragThresh = 0; /* avoid compile warning in printk() */
+				FragThresh = 0; /* avoid compile warning in printk(KERN_WARNING ) */
             }
 			else
             {
@@ -2160,7 +2160,7 @@ INT RTMPSetInformation(
             if (wrq->u.data.length != sizeof(NDIS_802_11_POWER_MODE))
 			{
                 Status = -EINVAL;
-				PowerMode = 0; /* avoid compile warning in printk() */
+				PowerMode = 0; /* avoid compile warning in printk(KERN_WARNING ) */
             }
 			else
             {

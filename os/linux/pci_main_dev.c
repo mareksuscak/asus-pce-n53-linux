@@ -221,7 +221,7 @@ static int rt2860_resume(
 	/* initialize device before it's used by a driver */
 	if (pci_enable_device(pci_dev))
 	{
-		printk("pci enable fail!\n");
+		printk(KERN_WARNING "pci enable fail!\n");
 		return 0;
 	}
 #endif
