@@ -2124,7 +2124,7 @@ INT RTMPSetInformation(
                 if (RtsThresh > MAX_RTS_THRESHOLD)
 				{
                     Status = -EINVAL;
-					RtsThresh = 0; /* avoid compile warning in printk(KERN_WARNING ) */
+					RtsThresh = 0; /* avoid compile warning in printk() */
                 }
 				else
                     pAd->CommonCfg.RtsThreshold = (USHORT)RtsThresh;
@@ -2135,7 +2135,7 @@ INT RTMPSetInformation(
             if (wrq->u.data.length != sizeof(NDIS_802_11_FRAGMENTATION_THRESHOLD))
 			{
                 Status  = -EINVAL;
-				FragThresh = 0; /* avoid compile warning in printk(KERN_WARNING ) */
+				FragThresh = 0; /* avoid compile warning in printk() */
             }
 			else
             {
@@ -2160,7 +2160,7 @@ INT RTMPSetInformation(
             if (wrq->u.data.length != sizeof(NDIS_802_11_POWER_MODE))
 			{
                 Status = -EINVAL;
-				PowerMode = 0; /* avoid compile warning in printk(KERN_WARNING ) */
+				PowerMode = 0; /* avoid compile warning in printk() */
             }
 			else
             {
