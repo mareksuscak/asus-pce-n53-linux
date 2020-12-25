@@ -468,6 +468,11 @@ PNET_DEV RtmpPhyNetDevInit(
 			net_dev->features |= NETIF_F_HW_CSUM;
 #endif /* CONFIG_TSO_SUPPORT */
 
+	static const struct device_type wlan_type = {
+		.name = "wlan",
+	};
+	net_dev->dev.type = &wlan_type;
+
 	return net_dev;
 	
 }
