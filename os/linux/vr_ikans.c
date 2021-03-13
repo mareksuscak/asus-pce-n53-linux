@@ -130,7 +130,7 @@ INT32 IKANOS_DataFramesTx(
 	ap2apFlowProcess(pSkb, pNetDev);
 
 #ifdef IKANOS_DEBUG
-	printk("ikanos> tx no fp\n"); /* debug use */
+	printk(KERN_WARNING "ikanos> tx no fp\n"); /* debug use */
 #endif /* IKANOS_DEBUG */
 
 	return rt28xx_send_packets(pSkb, pNetDev);
@@ -212,7 +212,7 @@ static INT32 IKANOS_WlanDataFramesTx(
 	sk = (struct sk_buff *)translateApbuf2Mbuf(pApBuf);
 	if (sk == NULL)
 	{
-		printk("ikanos> translateApbuf2Mbuf returned NULL!\n");
+		printk(KERN_WARNING "ikanos> translateApbuf2Mbuf returned NULL!\n");
 		return 1;
 	} /* End of if */
 
@@ -308,14 +308,14 @@ static void IKANOS_WlanPktFromAp(
 	dev = get_netdev_from_bssid(pAd, apBuf->specInfoElement);
     if (dev == NULL)
     {
-        printk("ikanos> %s: ERROR null device ***************\n", __FUNCTION__);
+        printk(KERN_WARNING "ikanos> %s: ERROR null device ***************\n", __FUNCTION__);
         return;
     } /* End of if */
 
     skb = (struct sk_buff *)translateApbuf2Mbuf(apBuf);
     if (NULL == skb)
     {
-        printk("ikanos> %s: skb is null *********************\n", __FUNCTION__);
+        printk(KERN_WARNING "ikanos> %s: skb is null *********************\n", __FUNCTION__);
         return;
     } /* End of if */
 
@@ -329,7 +329,7 @@ static void IKANOS_WlanPktFromAp(
     skb->protocol = eth_type_trans(skb, skb->dev);
 
 #ifdef IKANOS_DEBUG
-	printk("ikanos> rx no fp!\n"); /* debug use */
+	printk(KERN_WARNING "ikanos> rx no fp!\n"); /* debug use */
 #endif /* IKANOS_DEBUG */
 
     netif_rx(skb);

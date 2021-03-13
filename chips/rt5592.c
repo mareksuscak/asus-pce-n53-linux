@@ -1402,7 +1402,7 @@ static VOID NICInitRT5592BbpRegisters(
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R254, BbpReg);
 		
 		RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R254, &BbpReg);
-		printk("BBP_R254 = %x\n", BbpReg);
+		printk(KERN_WARNING "BBP_R254 = %x\n", BbpReg);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- %s\n", __FUNCTION__));

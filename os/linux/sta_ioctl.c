@@ -466,7 +466,7 @@ int rt_ioctl_giwpriv(
 	if (copy_from_user(ext, dwrq->pointer, len))
 	{
 		kfree(ext);
-		printk("andriod_handle_private   copy_from_user\n");
+		printk(KERN_WARNING "andriod_handle_private   copy_from_user\n");
 		return -EFAULT;
 	}
 	ext[len-1] = 0x00;
@@ -476,13 +476,13 @@ int rt_ioctl_giwpriv(
 	{
 		//Turn on Wi-Fi hardware
 		//OK if successful
-		printk("sSTART Turn on Wi-Fi hardware \n");
+		printk(KERN_WARNING "sSTART Turn on Wi-Fi hardware \n");
 		kfree(ext);
 		return -1;
 	}
 	else if(rtstrcasecmp(ext,"STOP") == 0)
 	{
-		printk("STOP Turn off  Wi-Fi hardware \n");
+		printk(KERN_WARNING "STOP Turn off  Wi-Fi hardware \n");
 		kfree(ext);
 		return -1;
 	}

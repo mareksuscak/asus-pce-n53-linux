@@ -371,8 +371,8 @@ int rt28xx_open(VOID *dev)
 
 
 #ifdef VENDOR_FEATURE2_SUPPORT
-	printk("Number of Packet Allocated in open = %lu\n", OS_NumOfPktAlloc);
-	printk("Number of Packet Freed in open = %lu\n", OS_NumOfPktFree);
+	printk(KERN_WARNING "Number of Packet Allocated in open = %lu\n", OS_NumOfPktAlloc);
+	printk(KERN_WARNING "Number of Packet Freed in open = %lu\n", OS_NumOfPktFree);
 #endif /* VENDOR_FEATURE2_SUPPORT */
 
 	return (retval);
@@ -404,7 +404,7 @@ PNET_DEV RtmpPhyNetDevInit(
 	RTMP_DRIVER_MAIN_INF_CREATE(pAd, &net_dev);
 	if (net_dev == NULL)
 	{
-		printk("RtmpPhyNetDevInit(): creation failed for main physical net device!\n");
+		printk(KERN_WARNING "RtmpPhyNetDevInit(): creation failed for main physical net device!\n");
 		return NULL;
 	}
 
@@ -467,6 +467,11 @@ PNET_DEV RtmpPhyNetDevInit(
 		if (TSOFlag)
 			net_dev->features |= NETIF_F_HW_CSUM;
 #endif /* CONFIG_TSO_SUPPORT */
+
+	static const struct device_type wlan_type = {
+		.name = "wlan",
+	};
+	net_dev->dev.type = &wlan_type;
 
 	return net_dev;
 	
@@ -751,7 +756,7 @@ BOOLEAN RtmpPhyNetDevExit(
 	/* Unregister network device */
 	if (net_dev != NULL)
 	{
-		printk("RtmpOSNetDevDetach(): RtmpOSNetDeviceDetach(), dev->name=%s!\n", net_dev->name);
+		printk(KERN_WARNING "RtmpOSNetDevDetach(): RtmpOSNetDeviceDetach(), dev->name=%s!\n", net_dev->name);
 		RtmpOSNetDevDetach(net_dev);
 	}
 
@@ -790,7 +795,7 @@ int RtmpOSIRQRequest(IN PNET_DEV pNetDev)
 
 		retval = request_irq(pci_dev->irq,  rt2860_interrupt, SA_SHIRQ, (net_dev)->name, (net_dev));
 		if (retval != 0) 
-			printk("RT2860: request_irq  ERROR(%d)\n", retval);
+			printk(KERN_WARNING "RT2860: request_irq  ERROR(%d)\n", retval);
 	}
 #endif /* RTMP_PCI_SUPPORT */
 

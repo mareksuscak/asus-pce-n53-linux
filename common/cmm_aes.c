@@ -1059,17 +1059,17 @@ VOID CCMP_test_vector(
 	UINT8 res_buf[100];
 	UINT res_len = 0;
 
-	printk("== CCMP test vector == \n");
+	printk(KERN_WARNING "== CCMP test vector == \n");
 
 	/* Check AAD */
 	NdisZeroMemory(res_buf, 100);
 	res_len = 0;
 	RTMPConstructCCMPAAD(HDR, TRUE, 0, 0, res_buf, &res_len);
 	if (res_len == 22 && NdisEqualMemory(res_buf, AAD, res_len))
-		printk("Construct AAD is OK!!!\n");
+		printk(KERN_WARNING "Construct AAD is OK!!!\n");
 	else
 	{
-		printk("\n!!!Construct AAD is FAILURE!!!\n\n");
+		printk(KERN_WARNING "\n!!!Construct AAD is FAILURE!!!\n\n");
 		hex_dump("Calculate AAD", res_buf, res_len);
 	}
 	/* Check NONCE */
@@ -1077,10 +1077,10 @@ VOID CCMP_test_vector(
 	res_len = 0;
 	RTMPConstructCCMPNonce(HDR, 0, 0, FALSE, PN, res_buf, &res_len);
 	if (res_len == 13 && NdisEqualMemory(res_buf, CCM_NONCE, res_len))
-		printk("Construct NONCE is OK!!!\n");
+		printk(KERN_WARNING "Construct NONCE is OK!!!\n");
 	else
 	{
-		printk("\n!!!Construct NONCE is FAILURE!!!\n\n");
+		printk(KERN_WARNING "\n!!!Construct NONCE is FAILURE!!!\n\n");
 		hex_dump("Calculate NONCE", res_buf, res_len);
 	}
 	/* Check CCMP-Header */
@@ -1088,10 +1088,10 @@ VOID CCMP_test_vector(
 	res_len = 0;
 	RTMPConstructCCMPHdr(Key_ID, PN, res_buf);
 	if (NdisEqualMemory(res_buf, CCMP_HDR, 8))
-		printk("Construct CCMP_HDR is OK!!!\n");
+		printk(KERN_WARNING "Construct CCMP_HDR is OK!!!\n");
 	else
 	{
-		printk("\n!!!Construct CCMP_HDR is FAILURE!!!\n\n");
+		printk(KERN_WARNING "\n!!!Construct CCMP_HDR is FAILURE!!!\n\n");
 		hex_dump("Calculate CCMP_HDR", res_buf, 8);
 	}
 
@@ -1107,10 +1107,10 @@ VOID CCMP_test_vector(
 	{
 		if (res_len == sizeof(C_TEXT_DATA) && 
 				NdisEqualMemory(res_buf, C_TEXT_DATA, res_len))
-			printk("CCM_Encrypt is OK!!!\n");
+			printk(KERN_WARNING "CCM_Encrypt is OK!!!\n");
 		else
 		{
-			printk("\n!!!CCM_Encrypt is FAILURE!!!\n\n");
+			printk(KERN_WARNING "\n!!!CCM_Encrypt is FAILURE!!!\n\n");
 			hex_dump("CCM_Encrypt", res_buf, res_len);
 		}
 	}
@@ -1126,15 +1126,15 @@ VOID CCMP_test_vector(
 	{
 		if (res_len == sizeof(P_TEXT_DATA) && 
 				NdisEqualMemory(res_buf, P_TEXT_DATA, res_len))
-			printk("CCM_Decrypt is OK!!!\n");
+			printk(KERN_WARNING "CCM_Decrypt is OK!!!\n");
 		else
 		{
-			printk("\n!!!CCM_Decrypt is FAILURE!!!\n\n");
+			printk(KERN_WARNING "\n!!!CCM_Decrypt is FAILURE!!!\n\n");
 			hex_dump("CCM_Decrypt", res_buf, res_len);
 		}
 	}	
 	
-	printk("== CCMP test vector == \n");
+	printk(KERN_WARNING "== CCMP test vector == \n");
 
 	}
 

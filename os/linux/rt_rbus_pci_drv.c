@@ -279,7 +279,7 @@ static void mgmt_dma_done_tasklet(unsigned long data)
 	
     pObj = (POS_COOKIE) pAd->OS_Cookie;
 
-/*	printk("mgmt_dma_done_process\n"); */
+/*	printk(KERN_WARNING "mgmt_dma_done_process\n"); */
 	IntSource.word = 0;
 	IntSource.field.MgmtDmaDone = 1;
 	RTMP_INT_LOCK(&pAd->LockInterrupt, flags);
@@ -516,7 +516,7 @@ static void ac3_dma_done_tasklet(unsigned long data)
 	
     pObj = (POS_COOKIE) pAd->OS_Cookie;
 
-/*	printk("ac0_dma_done_process\n"); */
+/*	printk(KERN_WARNING "ac0_dma_done_process\n"); */
 	IntSource.word = 0;
 	IntSource.field.Ac3DmaDone = 1;
 	RTMP_INT_LOCK(&pAd->LockInterrupt, flags);
@@ -632,7 +632,7 @@ static void ac1_dma_done_tasklet(unsigned long data)
 	
     pObj = (POS_COOKIE) pAd->OS_Cookie;
 
-/*	printk("ac0_dma_done_process\n"); */
+/*	printk(KERN_WARNING "ac0_dma_done_process\n"); */
 	IntSource.word = 0;
 	IntSource.field.Ac1DmaDone = 1;
 	RTMP_INT_LOCK(&pAd->LockInterrupt, flags);
@@ -691,7 +691,7 @@ static void ac0_dma_done_tasklet(unsigned long data)
 	
 	pObj = (POS_COOKIE) pAd->OS_Cookie;
 
-/*	printk("ac0_dma_done_process\n"); */
+/*	printk(KERN_WARNING "ac0_dma_done_process\n"); */
 	IntSource.word = 0;
 	IntSource.field.Ac0DmaDone = 1;
 	RTMP_INT_LOCK(&pAd->LockInterrupt, flags);
@@ -995,7 +995,7 @@ redo:
 		if (IntSource.word & 0x2) {
 			u32 reg;
 			RTMP_IO_READ32(pAd, DELAY_INT_CFG, &reg);
-			printk("IntSource = %08x, DELAY_REG = %08x\n", IntSource.word, reg);
+			printk(KERN_WARNING "IntSource = %08x, DELAY_REG = %08x\n", IntSource.word, reg);
 		}
 */
 		RTMP_INT_LOCK(&pAd->LockInterrupt, flags);
@@ -1490,7 +1490,7 @@ VOID RTMPInitPCIeLinkCtrlValue(
 						}
 
 						DBGPRINT(RT_DEBUG_TRACE, ("====> rt28xx Write 0x83 Command = 0x%x.\n", PCIePowerSaveLevel));
-							       printk("\n\n\n%s:%d\n",__FUNCTION__,__LINE__);
+							       printk(KERN_WARNING "\n\n\n%s:%d\n",__FUNCTION__,__LINE__);
 
 						AsicSendCommandToMcu(pAd, 0x83, 0xff, (UCHAR)PCIePowerSaveLevel, 0x00, FALSE);
 					}

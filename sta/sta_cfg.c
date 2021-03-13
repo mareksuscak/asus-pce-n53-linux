@@ -1821,7 +1821,7 @@ INT RTMPSetInformation(
 	    				NdisMoveMemory(pAd->StaCfg.WpaPassPhrase, &ppassphrase->KeyMaterial, ppassphrase->KeyLength);
 	   					pAd->StaCfg.WpaPassPhraseLen = ppassphrase->KeyLength;
 						hex_dump("pAd->StaCfg.WpaPassPhrase", pAd->StaCfg.WpaPassPhrase, 64);
-						printk("WpaPassPhrase=%s\n",pAd->StaCfg.WpaPassPhrase);
+						printk(KERN_WARNING "WpaPassPhrase=%s\n",pAd->StaCfg.WpaPassPhrase);
 					}
                 }
             }

@@ -739,15 +739,15 @@ void hex_dump(
 		return;
 
 	pt = pSrcBufVA;
-	printk("%s: %p, len = %d\n", str, pSrcBufVA, SrcBufLen);
+	printk(KERN_WARNING "%s: %p, len = %d\n", str, pSrcBufVA, SrcBufLen);
 	for (x = 0; x < SrcBufLen; x++) {
 		if (x % 16 == 0)
-			printk("0x%04x : ", x);
-		printk("%02x ", ((unsigned char)pt[x]));
+			printk(KERN_WARNING "0x%04x : ", x);
+		printk(KERN_WARNING "%02x ", ((unsigned char)pt[x]));
 		if (x % 16 == 15)
-			printk("\n");
+			printk(KERN_WARNING "\n");
 	}
-	printk("\n");
+	printk(KERN_WARNING "\n");
 #endif /* DBG */
 }
 
@@ -1106,22 +1106,12 @@ void RtmpOSFileSeek(RTMP_OS_FD osfd,
 
 int RtmpOSFileRead(RTMP_OS_FD osfd,
 		     char *pDataPtr, int readLen) {
-	/* The object must have a read method */
-	if (osfd->f_op && osfd->f_op->read) {
-		return osfd->f_op->read(osfd, pDataPtr, readLen, &osfd->f_pos);
-	} else {
-		DBGPRINT(RT_DEBUG_ERROR, ("no file read method\n"));
-		return -1;
-	}
+	return kernel_read(osfd, pDataPtr, readLen, &osfd->f_pos);
 }
 
 int RtmpOSFileWrite(RTMP_OS_FD osfd,
 		    char *pDataPtr, int writeLen) {
-	return osfd->f_op->write(osfd,
-				 pDataPtr,
-				 (
-	size_t) writeLen,
-				 &osfd->f_pos);
+	return kernel_write(osfd, pDataPtr, writeLen, &osfd->f_pos);
 }
 
 static inline void __RtmpOSFSInfoChange(OS_FS_INFO * pOSFSInfo,
@@ -1137,10 +1127,14 @@ static inline void __RtmpOSFSInfoChange(OS_FS_INFO * pOSFSInfo,
 		pOSFSInfo->fsuid = current_fsuid();
 		pOSFSInfo->fsgid = current_fsgid();
 #endif
+		#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 		pOSFSInfo->fs = get_fs();
 		set_fs(KERNEL_DS);
+		#endif
 	} else {
+		#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 		set_fs(pOSFSInfo->fs);
+		#endif
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,29)
 		current->fsuid = pOSFSInfo->fsuid;
 		current->fsgid = pOSFSInfo->fsgid;
@@ -1383,7 +1377,7 @@ static UINT32 RtmpOSWirelessEventTranslate(IN UINT32 eventType) {
 		break;
 
 	default:
-		printk("Unknown event: 0x%x\n", eventType);
+		printk(KERN_WARNING "Unknown event: 0x%x\n", eventType);
 		break;
 	}
 
@@ -1556,11 +1550,11 @@ void RtmpOSNetDevFree(PNET_DEV pNetDev)
 #endif
 
 #ifdef VENDOR_FEATURE4_SUPPORT
-	printk("OS_NumOfMemAlloc = %ld, OS_NumOfMemFree = %ld\n",
+	printk(KERN_WARNING "OS_NumOfMemAlloc = %ld, OS_NumOfMemFree = %ld\n",
 			OS_NumOfMemAlloc, OS_NumOfMemFree);
 #endif /* VENDOR_FEATURE4_SUPPORT */
 #ifdef VENDOR_FEATURE2_SUPPORT
-	printk("OS_NumOfPktAlloc = %ld, OS_NumOfPktFree = %ld\n",
+	printk(KERN_WARNING "OS_NumOfPktAlloc = %ld, OS_NumOfPktFree = %ld\n",
 			OS_NumOfPktAlloc, OS_NumOfPktFree);
 #endif /* VENDOR_FEATURE2_SUPPORT */
 }
@@ -1647,7 +1641,7 @@ INT RtmpOSNetDevDestory(IN VOID *pReserved,
 {
 
 	/* TODO: Need to fix this */
-	printk("WARNING: This function(%s) not implement yet!!!\n",
+	printk(KERN_WARNING "WARNING: This function(%s) not implement yet!!!\n",
 	       __FUNCTION__);
 	return 0;
 }
@@ -1919,8 +1913,10 @@ VOID RtmpDrvAllMacPrint(IN VOID *pReserved,
 
 	if (msg)
 	{
+		#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 		orig_fs = get_fs();
 		set_fs(KERNEL_DS);
+		#endif
 
 		/* open file */
 		file_w = filp_open(fileName, O_WRONLY | O_CREAT, 0);
@@ -1943,14 +1939,16 @@ VOID RtmpDrvAllMacPrint(IN VOID *pReserved,
 					file_w->f_op->write(file_w, msg, strlen(msg),
 							    &file_w->f_pos);
 
-					printk("%s", msg);
+					printk(KERN_WARNING "%s", msg);
 					macAddr += AddrStep;
 				}
 				sprintf(msg, "\nDump all MAC values to %s\n", fileName);
 			}
 			filp_close(file_w, NULL);
 		}
+		#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 		set_fs(orig_fs);
+		#endif
 		os_free_mem(NULL, msg);
 	}
 }
@@ -1970,8 +1968,10 @@ VOID RtmpDrvAllE2PPrint(IN VOID *pReserved,
 
 	if (msg)
 	{
+		#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 		orig_fs = get_fs();
 		set_fs(KERNEL_DS);
+		#endif
 		
 		/* open file */
 		file_w = filp_open(fileName, O_WRONLY | O_CREAT, 0);
@@ -1995,7 +1995,7 @@ VOID RtmpDrvAllE2PPrint(IN VOID *pReserved,
 					file_w->f_op->write(file_w, msg, strlen(msg),
 							    &file_w->f_pos);
 
-					printk("%s", msg);
+					printk(KERN_WARNING "%s", msg);
 					eepAddr += AddrStep;
 					pMacContent += (AddrStep >> 1);
 				}
@@ -2004,7 +2004,9 @@ VOID RtmpDrvAllE2PPrint(IN VOID *pReserved,
 			}
 			filp_close(file_w, NULL);
 		}
+		#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 		set_fs(orig_fs);
+		#endif
 		os_free_mem(NULL, msg);
 	}
 }
@@ -4139,7 +4141,7 @@ VOID RtmpOsSpinLockBh(IN NDIS_SPIN_LOCK *pLockOrg) {
 	if (pLock != NULL) {
 		OS_SEM_LOCK(pLock);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4163,7 +4165,7 @@ VOID RtmpOsSpinUnLockBh(IN NDIS_SPIN_LOCK *pLockOrg) {
 	if (pLock != NULL) {
 		OS_SEM_UNLOCK(pLock);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4189,7 +4191,7 @@ VOID RtmpOsIntLock(IN NDIS_SPIN_LOCK *pLockOrg,
 	if (pLock != NULL) {
 		OS_INT_LOCK(pLock, *pIrqFlags);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4215,7 +4217,7 @@ VOID RtmpOsIntUnLock(IN NDIS_SPIN_LOCK *pLockOrg,
 	if (pLock != NULL) {
 		OS_INT_UNLOCK(pLock, IrqFlags);
 	} else
-		printk("lock> warning! the lock was freed!\n");
+		printk(KERN_WARNING "lock> warning! the lock was freed!\n");
 }
 
 /*
@@ -4729,7 +4731,7 @@ BOOLEAN RtmpOsSemaDestory(IN RTMP_OS_SEM *pSemOrg) {
 		os_free_mem(NULL, pSem);
 		pSemOrg->pContent = NULL;
 	} else
-		printk("sem> warning! double-free sem!\n");
+		printk(KERN_WARNING "sem> warning! double-free sem!\n");
 	return TRUE;
 }
 

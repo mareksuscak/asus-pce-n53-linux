@@ -564,7 +564,7 @@ typedef union _BBP_R182_STRUC {
     	}								\
     if ((_A)->ShowRf)					\
     {									\
-    	printk("RF:%x\n", _V);			\
+    	printk(KERN_WARNING "RF:%x\n", _V);			\
 	}									\
 }
 #endif /* RTMP_MAC_PCI */

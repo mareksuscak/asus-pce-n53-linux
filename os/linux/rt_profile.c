@@ -560,7 +560,7 @@ int	RTMPSendPackets(
         /* EapolStart size is 18 */
 	if (PktTotalLen < 14)
 	{
-		/*printk("bad packet size: %d\n", pkt->len); */
+		/*printk(KERN_WARNING "bad packet size: %d\n", pkt->len); */
 		hex_dump("bad packet", GET_OS_PKT_DATAPTR(pPacket), PktTotalLen);
 		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
 		return 0;
