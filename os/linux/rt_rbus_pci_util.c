@@ -48,7 +48,7 @@ void RTMP_AllocateTxDescMemory(
 /*	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	dma_addr_t DmaAddr = (dma_addr_t)(*PhysicalAddress);
 
-	*VirtualAddress = (PVOID)pci_alloc_consistent(pPciDev,sizeof(char)*Length, &DmaAddr);
+    *VirtualAddress = (PVOID)dma_alloc_coherent(pPciDev == NULL ? NULL : &pPciDev->dev,sizeof(char)*Length, &DmaAddr, GFP_ATOMIC);
 	*PhysicalAddress = (NDIS_PHYSICAL_ADDRESS)DmaAddr;
 }
 
@@ -64,7 +64,7 @@ void RTMP_AllocateMgmtDescMemory(
 /*	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	dma_addr_t DmaAddr = (dma_addr_t)(*PhysicalAddress);
 
-	*VirtualAddress = (PVOID)pci_alloc_consistent(pPciDev,sizeof(char)*Length, &DmaAddr);
+    *VirtualAddress = (PVOID)dma_alloc_coherent(pPciDev == NULL ? NULL : &pPciDev->dev,sizeof(char)*Length, &DmaAddr, GFP_ATOMIC);
 	*PhysicalAddress = (NDIS_PHYSICAL_ADDRESS)DmaAddr;
 }
 
@@ -80,7 +80,7 @@ void RTMP_AllocateRxDescMemory(
 /*	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	dma_addr_t DmaAddr = (dma_addr_t)(*PhysicalAddress);
 
-	*VirtualAddress = (PVOID)pci_alloc_consistent(pPciDev,sizeof(char)*Length, &DmaAddr);
+    *VirtualAddress = (PVOID)dma_alloc_coherent(pPciDev == NULL ? NULL : &pPciDev->dev,sizeof(char)*Length, &DmaAddr, GFP_ATOMIC);
 	*PhysicalAddress = (NDIS_PHYSICAL_ADDRESS)DmaAddr;
 }
 
@@ -95,7 +95,7 @@ void RTMP_FreeDescMemory(
 /*	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	dma_addr_t DmaAddr = (dma_addr_t)(PhysicalAddress);
 
-	pci_free_consistent(pPciDev, Length, VirtualAddress, DmaAddr);
+    dma_free_coherent(pPciDev == NULL ? NULL : &pPciDev->dev, Length, VirtualAddress, DmaAddr);
 }
 
 
@@ -111,7 +111,7 @@ void RTMP_AllocateFirstTxBuffer(
 /*	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	dma_addr_t DmaAddr = (dma_addr_t)(*PhysicalAddress);
 
-	*VirtualAddress = (PVOID)pci_alloc_consistent(pPciDev,sizeof(char)*Length, &DmaAddr);
+    *VirtualAddress = (PVOID)dma_alloc_coherent(pPciDev == NULL ? NULL : &pPciDev->dev,sizeof(char)*Length, &DmaAddr, GFP_ATOMIC);
 	*PhysicalAddress = (NDIS_PHYSICAL_ADDRESS)DmaAddr;
 }
 
@@ -125,7 +125,7 @@ void RTMP_FreeFirstTxBuffer(
 {
 /*	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	dma_addr_t DmaAddr = (dma_addr_t)(PhysicalAddress);
-	pci_free_consistent(pPciDev, Length, VirtualAddress, DmaAddr);
+    dma_free_coherent(pPciDev == NULL ? NULL : &pPciDev->dev, Length, VirtualAddress, DmaAddr);
 }
 
 
@@ -184,10 +184,10 @@ ra_dma_addr_t linux_pci_map_single(void *pPciDev, void *ptr, size_t size, int sd
 
 
 	if (direction == RTMP_PCI_DMA_TODEVICE)
-		direction = PCI_DMA_TODEVICE;
+		direction = DMA_TO_DEVICE;
 
 	if (direction == RTMP_PCI_DMA_FROMDEVICE)
-		direction = PCI_DMA_FROMDEVICE;
+		direction = DMA_FROM_DEVICE;
 
 	/* 
 		------ Porting Information ------
@@ -209,7 +209,8 @@ ra_dma_addr_t linux_pci_map_single(void *pPciDev, void *ptr, size_t size, int sd
 /*	pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	
 	{
-		return (ra_dma_addr_t)pci_map_single(pPciDev, ptr, size, direction);
+        PPCI_DEV dev = (PPCI_DEV)pPciDev;
+		return (ra_dma_addr_t)dma_map_single(&(dev->dev), ptr, size, direction);
 	}
 
 }
@@ -222,16 +223,18 @@ void linux_pci_unmap_single(void *pPciDev, ra_dma_addr_t radma_addr, size_t size
 
 
 	if (direction == RTMP_PCI_DMA_TODEVICE)
-		direction = PCI_DMA_TODEVICE;
+		direction = DMA_TO_DEVICE;
 
 	if (direction == RTMP_PCI_DMA_FROMDEVICE)
-		direction = PCI_DMA_FROMDEVICE;
+		direction = DMA_FROM_DEVICE;
 
 /*	pAd=(PRTMP_ADAPTER)handle; */
 /*	pObj = (POS_COOKIE)pAd->OS_Cookie; */
 	
-	if (size > 0)
-		pci_unmap_single(pPciDev, DmaAddr, size, direction);
+	if (size > 0) {
+        PPCI_DEV dev = (PPCI_DEV)pPciDev;
+		dma_unmap_single(&(dev->dev), DmaAddr, size, direction);
+    }
 	
 }
 

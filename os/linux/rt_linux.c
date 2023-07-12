@@ -1904,7 +1904,9 @@ VOID RtmpDrvAllMacPrint(IN VOID *pReserved,
 			IN UINT32 AddrStep) {
 	struct file *file_w;
 	PSTRING fileName = "MacDump.txt";
+#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 	mm_segment_t orig_fs;
+#endif
 	STRING *msg;//[1024];
 	ULONG macAddr = 0;
 	UINT32 macValue = 0;
@@ -1959,7 +1961,9 @@ VOID RtmpDrvAllE2PPrint(IN VOID *pReserved,
 			IN UINT32 AddrStep) {
 	struct file *file_w;
 	PSTRING fileName = "EEPROMDump.txt";
+#if LINUX_VERSION_CODE <= KERNEL_VERSION(5,10,1)
 	mm_segment_t orig_fs;
+#endif
 	STRING *msg;//[1024];
 	USHORT eepAddr = 0;
 	USHORT eepValue;
