@@ -283,7 +283,9 @@ typedef struct _OS_FS_INFO_
 	kuid_t				fsuid;
 	kgid_t				fsgid;
 #endif
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10, 0)
 	mm_segment_t	fs;
+#endif
 } OS_FS_INFO;
 
 #define IS_FILE_OPEN_ERR(_fd) 	((_fd == NULL) || IS_ERR((_fd)))
